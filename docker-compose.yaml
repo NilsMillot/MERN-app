@@ -52,10 +52,23 @@ services:
     volumes:
       - mongo-data:/data/db
 
+  db-postgres:
+    image: postgres:alpine
+    volumes:
+      - db-postgres-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=app
+    networks:
+      - mern-network
+
 networks:
   mern-network:
     driver: bridge
 
 volumes:
   mongo-data:
+    driver: local
+  db-postgres-data:
     driver: local
