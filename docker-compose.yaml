@@ -17,7 +17,7 @@ services:
     environment:
       - REACT_APP_SERVER=http://localhost:5000
       - CHOKIDAR_USEPOLLING=true
-    command: npm start
+    command: npm run dev
     stdin_open: true
     tty: true
   
@@ -36,7 +36,7 @@ services:
     environment:
       - MONGO_URL=mongodb://db:27017
       - CLIENT=http://localhost:3000
-    command: /usr/app/node_modules/.bin/nodemon -L src/index.js
+    command: nodemon -L src/index.js
 
   db:
     # image: mongo:3.6.19-xenial
