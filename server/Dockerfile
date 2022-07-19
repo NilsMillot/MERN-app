@@ -5,7 +5,7 @@ WORKDIR /usr/app
 # Install app dependencies
 COPY package*.json ./
 RUN npm install -g nodemon
-RUN npm install express && npm install
+RUN npm install express sequelize bcryptjs && npm install
 # Copy app to container
 COPY . .
 EXPOSE 5000
