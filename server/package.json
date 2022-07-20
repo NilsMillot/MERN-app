@@ -8,7 +8,9 @@
     "dev": "nodemon -L src/index.js"
   },
   "dependencies": {
-    "express": "4.16.4"
+    "express": "4.16.4",
+    "sequelize": "^6.21.2",
+    "sequelize-cli": "6.4.1"
   },
   "keywords": [],
   "author": "",

@@ -4,8 +4,13 @@ FROM node:14.19.3
 WORKDIR /usr/app
 # Install app dependencies
 COPY package*.json ./
+RUN npm install 
 RUN npm install -g nodemon
-RUN npm install express sequelize bcryptjs && npm install
+RUN npm install express sequelize bcryptjs jsonwebtoken && npm install
+RUN npm install -g sequelize
+RUN npm install -g sequelize-cli
+RUN npm install --save sequelize-cli
+RUN npm install --save sequelize
 # Copy app to container
 COPY . .
 EXPOSE 5000

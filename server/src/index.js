@@ -9,6 +9,10 @@ app.get("/", (req, res, next) => {
   res.send("Hello wooorld!");
 });
 
+// app.get("/login", (req, res, next) => {
+//   res.send("login");
+// });
+
 app.use(SecurityRouter);
 
 app.listen(port, () => console.log(`Server started ${port}`));

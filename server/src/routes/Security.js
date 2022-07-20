@@ -1,8 +1,8 @@
 const { Router } = require("express");
 const { User } = require("../models/postgres");
 const { ValidationError } = require("sequelize");
-const bcryptjs = require("bcryptjs");
 const { createToken } = require("../lib/jwt");
+const { compare } = require("bcrypt");
 const router = new Router();
 
 const formatError = (validationError) => {
@@ -39,7 +39,7 @@ router.post("/login", async (req, res) => {
       });
       return;
     }
-    if (!(await bcryptjs.compare(req.body.password, result.password))) {
+    if (!(await compare(req.body.password, result.password))) {
       res.status(401).json({
         password: "Password is incorrect",
       });
