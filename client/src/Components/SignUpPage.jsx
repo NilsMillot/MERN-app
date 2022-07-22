@@ -13,7 +13,6 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { AuthContext } from "../App";
-import { useNavigate } from "react-router-dom";
 
 function Copyright(props) {
   return (
@@ -32,13 +31,10 @@ const theme = createTheme();
 
 export default function SignUpPage() {
   let auth = React.useContext(AuthContext);
-  let navigate = useNavigate();
-  let from = location.state?.from?.pathname || "/";
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    let user = data.get("email");
 
     const requestOptions = {
       method: "POST",
@@ -56,9 +52,8 @@ export default function SignUpPage() {
         alert("There is a problem with your email or password");
       }
       if (response.status === 201) {
-        auth.signin(user, () => {
-          console.log("register ok");
-          navigate(from, { replace: true });
+        auth.signin(undefined, () => {
+          alert("Check your email to confirm your account (not working, just go to /login)");
         });
       }
     });
