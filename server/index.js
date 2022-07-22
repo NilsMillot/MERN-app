@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const port = process.env.PORT || 3000;
 const app = express();
 const HttpCodesRouter = require("./routes/HttpCode");
@@ -7,7 +8,7 @@ const PostRouter = require("./routes/Post");
 const SecurityRouter = require("./routes/Security");
 const checkAuthentication = require("./middlewares/checkAuthentication");
 
-app.use(express.json());
+app.use(express.json(), cors());
 
 app.get("/", (req, res, next) => {
   res.send("Hello world!");
