@@ -193,9 +193,9 @@ export default function NavBar() {
                 <StyledInputBase placeholder="Search…" inputProps={{ "aria-label": "search" }} />
               </Search>
             )}
-            <AuthStatus />
             <Box sx={{ flexGrow: 1 }} />
-            <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}>
+              <AuthStatus />
               <Link to="/messaging" style={{ color: "white" }}>
                 <IconButton size="large" aria-label="show 4 new mails" color="inherit">
                   <Badge badgeContent={4} color="error">

@@ -1,7 +1,10 @@
+import { useContext } from "react";
+import { AuthContext } from "../App";
+
 /**
  * This represents some generic auth provider API, like Firebase.
  */
-const fakeAuthProvider = {
+export const fakeAuthProvider = {
   isAuthenticated: false,
   signin(callback) {
     fakeAuthProvider.isAuthenticated = true;
@@ -13,4 +16,6 @@ const fakeAuthProvider = {
   }
 };
 
-export { fakeAuthProvider };
+export function useAuth() {
+  return useContext(AuthContext);
+}

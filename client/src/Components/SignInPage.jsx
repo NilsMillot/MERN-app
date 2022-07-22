@@ -59,7 +59,6 @@ export default function SignInPage() {
       });
 
       if (response.status === 200) {
-        auth.setName(user);
         auth.signin(user, () => {
           navigate(from, { replace: true });
         });

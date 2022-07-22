@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../App";
+import { useAuth } from "../utils/auth";
 
 export function AuthStatus() {
   let auth = useAuth();
