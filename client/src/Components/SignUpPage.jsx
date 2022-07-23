@@ -13,6 +13,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { AuthContext } from "../App";
+import { v4 as uuidv4 } from "uuid";
 
 function Copyright(props) {
   return (
@@ -35,6 +36,7 @@ export default function SignUpPage() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    const uniqueId = uuidv4();
 
     const requestOptions = {
       method: "POST",
@@ -44,7 +46,8 @@ export default function SignUpPage() {
       body: JSON.stringify({
         email: data.get("email"),
         password: data.get("password"),
-        firstname: data.get("firstName")
+        firstname: data.get("firstName"),
+        confirmationCode: uniqueId
       })
     };
     fetch("http://localhost:3000/register", requestOptions).then((response) => {
@@ -54,6 +57,12 @@ export default function SignUpPage() {
       if (response.status === 201) {
         auth.signin(undefined, () => {
           alert("Check your email to confirm your account (not working, just go to /login)");
+          console.log(
+            "envoyer un mail avec l api",
+            data.get("firstName"),
+            data.get("email"),
+            uniqueId
+          );
         });
       }
     });

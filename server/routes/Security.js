@@ -73,6 +73,12 @@ router.post("/login", async (req, res) => {
       });
       return;
     }
+    // TODO: display popup message
+    if (result.status != "active") {
+      return res.status(401).send({
+        message: "Pending Account. Please Verify Your Email!",
+      });
+    }
     if (!(await bcryptjs.compare(req.body.password, result.password))) {
       res.status(401).json({
         password: "Password is incorrect",

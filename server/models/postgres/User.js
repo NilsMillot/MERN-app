@@ -38,6 +38,14 @@ User.init(
         },
       },
     },
+    status: {
+      type: DataTypes.ENUM("pending", "active", "disabled"),
+      defaultValue: "pending",
+    },
+    confirmationCode: {
+      type: DataTypes.STRING,
+      unique: true,
+    },
   },
   {
     sequelize,

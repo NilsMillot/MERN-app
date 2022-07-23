@@ -1,0 +1,13 @@
+###
+POST http://localhost:3000/sendMail/validationAccountLink
+Content-Type: application/json
+
+{
+    "mailTo": "nilsmillot@gmail.com",
+    "confirmationCode": "token1234",
+    "firstName": "Nils"
+}
+
+###
+GET http://localhost:3000/sendMail/confirm/1234
+Content-Type: application/json
