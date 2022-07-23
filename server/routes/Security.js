@@ -76,7 +76,7 @@ router.post("/login", async (req, res) => {
     // TODO: display popup message
     if (result.status != "active") {
       return res.status(401).send({
-        message: "Pending Account. Please Verify Your Email!",
+        pendingAccount: "Pending Account. Please Verify Your Email!",
       });
     }
     if (!(await bcryptjs.compare(req.body.password, result.password))) {

@@ -6,6 +6,7 @@ import SignUpPage from "./components/SignUpPage";
 import HomePage from "./components/HomePage";
 import { AuthProvider } from "./components/AuthProvider";
 import { RequireAuth } from "./components/RequireAuth";
+import Welcome from "./components/Welcome";
 
 export let AuthContext = createContext(null);
 
@@ -33,6 +34,7 @@ const App = () => {
           />
           <Route path="/login" element={<SignInPage />} />
           <Route path="/signUp" element={<SignUpPage />} />
+          <Route path="/confirm/:confirmationCode" element={<Welcome />} />
           <Route path="*" element={<h1>404</h1>} />
         </Routes>
       </AuthProvider>

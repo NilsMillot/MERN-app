@@ -17,8 +17,8 @@ async function sendValidationAccountMail(mailTo, confirmationCode, firstName) {
     from: process.env?.SENDER_ADRESS, // sender address
     to: `${mailTo}`, // list of receivers
     subject: "Confirmation de votre compte COMMUNITY ✔", // Subject line
-    text: `Merci ${firstName} pour la confiance que tu nous accordes, pour confirmer ton inscription, cliques sur ce lien: http://localhost:3000/sendMail/confirm/${confirmationCode}`, // plain text body
-    html: `<h3 style="font-weight: 400"> Merci ${firstName} pour la confiance que tu nous accordes ! <a href="http://localhost:3000/sendMail/confirm/${confirmationCode}">Confirmer mon mail</a></h3>`, // html body
+    text: `Merci ${firstName} pour la confiance que tu nous accordes, pour confirmer ton inscription, cliques sur ce lien: http://localhost:3001/confirm/${confirmationCode}`, // plain text body
+    html: `<h3 style="font-weight: 400"> Merci ${firstName} pour la confiance que tu nous accordes ! <a href="http://localhost:3001/confirm/${confirmationCode}">Confirmer mon mail</a></h3>`, // html body
   });
 
   console.log("Message sent: %s", info.messageId);
@@ -32,7 +32,7 @@ router.post("/validationAccountLink", async (req, res) => {
       req.body.confirmationCode,
       req.body.firstName
     );
-    res.status(201);
+    res.status(201).json({ message: "Verification mail sent" });
   } catch (error) {
     res.sendStatus(500);
     console.error(error);

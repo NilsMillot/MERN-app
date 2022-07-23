@@ -15,6 +15,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import loginPic from "../assets/login-pic.jpg";
 import { AuthContext } from "../App";
 import { useNavigate } from "react-router-dom";
+import ClosableAlert from "./closableAlert";
 
 function Copyright(props) {
   return (
@@ -35,6 +36,8 @@ export default function SignInPage() {
   let auth = React.useContext(AuthContext);
   let navigate = useNavigate();
   let from = location.state?.from?.pathname || "/";
+  const [messageErrorAlert, setMessageErrorAlert] = React.useState("");
+  const [openErrorAlert, setOpenErrorAlert] = React.useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -51,19 +54,33 @@ export default function SignInPage() {
         password: data.get("password")
       })
     };
-    fetch("http://localhost:3000/login", requestOptions).then((response) => {
-      response.json().then((data) => {
-        if (data?.token) {
-          localStorage.setItem("token", data.token);
-        }
-      });
-
-      if (response.status === 200) {
-        auth.signin(user, () => {
-          navigate(from, { replace: true });
+    fetch("http://localhost:3000/login", requestOptions)
+      .then((response) => {
+        response.json().then((data) => {
+          if (data?.token) {
+            localStorage.setItem("token", data.token);
+          }
+          if (data?.email || data?.password) {
+            setMessageErrorAlert("Email ou mot de passe incorrect");
+            setOpenErrorAlert(true);
+            // alert("Email ou mot de passe incorrect");
+          }
+          if (data?.pendingAccount) {
+            setMessageErrorAlert("Votre compte n'est pas encore activé");
+            setOpenErrorAlert(true);
+            // alert("Votre compte n'est pas encore confirmé");
+          }
         });
-      }
-    });
+
+        if (response.status === 200) {
+          auth.signin(user, () => {
+            navigate(from, { replace: true });
+          });
+        }
+      })
+      .catch((error) => {
+        console.log("%cSignInPage.jsx line:81 error", "color: #007acc;", error);
+      });
   };
 
   return (
@@ -123,6 +140,12 @@ export default function SignInPage() {
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
+              />
+              <ClosableAlert
+                severity="error"
+                message={messageErrorAlert}
+                onOpenAlert={openErrorAlert}
+                setOnOpenAlert={setOpenErrorAlert}
               />
               <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                 Sign In
