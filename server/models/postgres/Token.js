@@ -1,50 +1,47 @@
+// const mongoose = require("mongoose");
+// const Schema = mongoose.Schema;
+
+// const tokenSchema = new Schema({
+//     userId: {
+//         type: Schema.Types.ObjectId,
+//         required: true,
+//         ref: "user",
+//     },
+//     token: {
+//         type: String,
+//         required: true,
+//     },
+//     createdAt: {
+//         type: Date,
+//         default: Date.now,
+//         expires: 3600,
+//     },
+// });
+
+// module.exports = mongoose.model("token", tokenSchema);
+
 const { DataTypes, Model } = require("sequelize");
 const sequelize = require("./db");
 const bcryptjs = require("bcryptjs");
 
-class User extends Model {}
+class Token extends Model {}
 
-User.init(
+Token.init(
   {
-    email: {
+    userId: {
       type: DataTypes.STRING,
       allowNull: false,
       unique: true,
-      validate: {
-        isEmail: true,
-      },
+      ref: "user",
     },
-    password: {
+    token: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        len: {
-          min: 6,
-          max: 255,
-        },
-      },
     },
-    isAdmin: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false,
-      allowNull: false,
-    },
-    firstname: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        len: {
-          min: 2,
-        },
-      },
-    },
-    status: {
-      type: DataTypes.ENUM("pending", "active", "disabled"),
-      defaultValue: "pending",
-    },
-    confirmationCode: {
-      type: DataTypes.STRING,
-      unique: true,
+    createdAt: {
+      type: DataTypes.DATE,
+      default: DataTypes.DATE.now,
+      expires: 3600,
     },
   },
   {

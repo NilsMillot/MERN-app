@@ -4,6 +4,7 @@ const { ValidationError } = require("sequelize");
 const bcryptjs = require("bcryptjs");
 const { createToken, checkToken } = require("../lib/jwt");
 const router = new Router();
+const sendMailBasic = require("../lib/sendMailBasic");
 
 const formatError = (validationError) => {
   return validationError.errors.reduce((acc, error) => {
@@ -73,6 +74,11 @@ router.post("/login", async (req, res) => {
       });
       return;
     }
+    if (result.status != "active") {
+      return res.status(401).send({
+        pendingAccount: "Pending Account. Please Verify Your Email!",
+      });
+    }
     if (!(await bcryptjs.compare(req.body.password, result.password))) {
       res.status(401).json({
         password: "Password is incorrect",
@@ -83,6 +89,65 @@ router.post("/login", async (req, res) => {
   } catch (error) {
     res.sendStatus(500);
     console.error(error);
+  }
+});
+
+router.post("/password-reset", async (req, res) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        email: req.body.email,
+      },
+    });
+    if (!user)
+      return res.status(400).send("user with given email doesn't exist");
+
+    let shortPayload = {
+      id: user.id,
+    };
+    let token = await createToken(shortPayload, "120s");
+    token = token.replace(/\./g, "---");
+
+    const link = `<span>Changer mon mot de passe : <a href="localhost:3001/password-reset/${user.id}/${token}">localhost:3001/password-reset/${user.id}/${token}</a></span>`;
+    await sendMailBasic(
+      user.email,
+      "Modification de votre mot de passe | COMMUNITY",
+      link
+    );
+
+    res.send("password reset link sent to your email account");
+  } catch (error) {
+    res.sendStatus(500);
+    console.log(error);
+  }
+});
+
+router.post("/password-reset/:userId/:token", async (req, res) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        id: req.params.userId,
+      },
+    });
+    if (!user) return res.status(400).send("invalid link or expired");
+
+    const token = req.params.token;
+    if (!token) return res.status(400).send("Invalid link or expired");
+    if (!(await checkToken(token)))
+      return res.status(400).send("Invalid link or expired");
+
+    user.password = req.body.password;
+    user.save((err) => {
+      if (err) {
+        res.status(502).send({ message: err });
+        return;
+      }
+    });
+
+    res.send("password reset sucessfully.");
+  } catch (error) {
+    res.send("An error occured while trying to reset password");
+    console.log(error);
   }
 });
 

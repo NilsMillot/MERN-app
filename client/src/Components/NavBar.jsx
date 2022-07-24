@@ -61,7 +61,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function NavBar() {
   let auth = React.useContext(AuthContext);
-  // console.log("%cNavBar.jsx line:63 auth", "color: #007acc;", auth);
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -105,7 +105,11 @@ export default function NavBar() {
       }}
       open={isMenuOpen}
       onClose={handleMenuClose}>
-      {auth?.email && <MenuItem onClick={handleMenuClose}>My account</MenuItem>}
+      {auth?.email && (
+        <Link to="/profile" style={{ color: "inherit", textDecoration: "none" }}>
+          <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+        </Link>
+      )}
       {auth?.email ? (
         <MenuItem onClick={handleMenuClose && handleSignout}>Sign out</MenuItem>
       ) : (

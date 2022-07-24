@@ -21,11 +21,15 @@ exports.Post.addHook("afterDestroy", async (post) => {
   await PostMongo.deleteOne({ _id: post.id });
 });
 
-exports.User.addHook("afterUpdate", async (user) =>
-  Promise.all(user.posts.map((post) => denormalizePost(post)))
-);
+exports.User.addHook("afterUpdate", async (user) => {
+  if (user.posts) {
+    Promise.all(user.posts.map((post) => denormalizePost(post)));
+  }
+});
 exports.User.addHook("afterDestroy", async (post) => {
-  return Promise.all(
-    user.posts.map((post) => PostMongo.deleteOne({ _id: post.id }))
-  );
+  if (user.posts) {
+    return Promise.all(
+      user.posts.map((post) => PostMongo.deleteOne({ _id: post.id }))
+    );
+  }
 });

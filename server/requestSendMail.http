@@ -1,0 +1,29 @@
+###
+POST http://localhost:3000/sendMail/validationAccountLink
+Content-Type: application/json
+
+{
+    "mailTo": "meyox97193@altpano.com",
+    "confirmationCode": "token1234",
+    "firstName": "Nils"
+}
+
+###
+GET http://localhost:3000/sendMail/confirm/token1234
+Content-Type: application/json
+
+###
+POST http://localhost:3000/password-reset
+Content-Type: application/json
+
+{
+    "email": "meyox97193@altpano.com"
+}
+
+###
+POST http://localhost:3000/password-reset/77/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NzcsImlhdCI6MTY1ODY4NzgxMiwiZXhwIjoxNjkwMjQ1NDEyfQ.mardcMNytIcSuRfxz44u7Qnv3dMsEBoXKX29_YdTJ2E
+Content-Type: application/json
+
+{
+    "password": "nouveau mdp zeffezezfefzfezezzf"
+}
