@@ -6,6 +6,7 @@ import SignUpPage from "./Components/SignUpPage";
 import HomePage from "./Components/HomePage";
 import { AuthProvider } from "./Components/AuthProvider";
 import { RequireAuth } from "./Components/RequireAuth";
+import FriendInvitation from "./Components/friend-invitation/FriendInvitation";
 
 export let AuthContext = createContext(null);
 
@@ -28,6 +29,14 @@ const App = () => {
             element={
               <RequireAuth>
                 <h1>Votre messagerie</h1>
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/friends"
+            element={
+              <RequireAuth>
+                <FriendInvitation />
               </RequireAuth>
             }
           />

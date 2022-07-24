@@ -17,22 +17,4 @@ Invitation.init(
   }
 );
 
-exports.User.hasMany(Invitation, {
-  foreignKey: 'senderId',
-  as: 'sendedInvitations'
-});
-Invitation.belongsTo(exports.User, {
-  foreignKey: 'senderId',
-  as: 'sender'
-});
-
-exports.User.hasMany(Invitation, {
-  foreignKey: 'receiverId',
-  as: 'receivedInvitations'
-});
-Invitation.belongsTo(exports.User, {
-  foreignKey: 'receiverId',
-  as: 'receiver'
-});
-
 module.exports = Invitation;

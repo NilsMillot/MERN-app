@@ -21,19 +21,19 @@ router.get("/", checkAuthentication, async (req, res) => {
       where: {
         '$sender.id$': user.id
       },
-      include: [{
-        model: User,
-        as: 'sender'
-      }]
+      include: [
+        {model: User, as: 'sender'},
+        {model: User, as: 'receiver'}
+      ]
     });
     const receivedInvitations = await Invitation.findAll({
       where: {
         '$receiver.id$': user.id
       },
-      include: [{
-        model: User,
-        as: 'receiver'
-      }]
+      include: [
+        {model: User, as: 'sender'},
+        {model: User, as: 'receiver'}
+      ]
     });
     const allInvitations = {
       sendedInvitations,
