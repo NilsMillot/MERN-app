@@ -23,3 +23,16 @@ exports.checkToken = async (token) => {
     return false;
   }
 };
+
+exports.extractUserFromToken = async (req) => {
+  const header = req.headers.authorization;
+  if (!header) {
+    return res.sendStatus(401);
+  }
+  const [type, token] = header.split(/\s+/);
+  if (type !== "Bearer") {
+    return res.sendStatus(401);
+  }
+  const user = await exports.checkToken(token);
+  return user;
+}

@@ -1,3 +1,31 @@
+GET http://localhost:3000/friends
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3RuYW1lIjoiT0siLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2NTg2MTU4NzQsImV4cCI6MTY5MDE3MzQ3NH0.tI73TrSC7Wpdz2XOAtz5-RR30cFV44cFPih-WmoUIn4
+
+###
+PUT http://localhost:3000/invitations/2
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3RuYW1lIjoiT0siLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2NTg2MTU4NzQsImV4cCI6MTY5MDE3MzQ3NH0.tI73TrSC7Wpdz2XOAtz5-RR30cFV44cFPih-WmoUIn4
+
+{
+  "status": "accepté"
+}
+
+###
+POST http://localhost:3000/invitations
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3RuYW1lIjoiT0siLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2NTg2MTU4NzQsImV4cCI6MTY5MDE3MzQ3NH0.tI73TrSC7Wpdz2XOAtz5-RR30cFV44cFPih-WmoUIn4
+
+{
+  "receiverId": 3
+}
+
+###
+GET http://localhost:3000/invitations
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZmlyc3RuYW1lIjoiT0siLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2NTg1ODQxNjUsImV4cCI6MTY5MDE0MTc2NX0.lKhAMSBxgsyLK_CKKJeQywS0gKpHESekcTSf02ikQI4
+
+###
 GET http://localhost:3000/http-codes
 
 ###
@@ -25,7 +53,7 @@ DELETE http://localhost:3000/http-codes/62b989c6b1d4a19ea9b679bd
 
 ###
 GET http://localhost:3000/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZmlyc3RuYW1lIjoiT0siLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2NTgzMzgzNDMsImV4cCI6MTY4OTg5NTk0M30.jqZAYEZ8X8gYT_WVz6nnJKZD4COl745_a_qOp_ZzkTs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZmlyc3RuYW1lIjoiT0siLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2NTg1NzY2MjksImV4cCI6MTY5MDEzNDIyOX0.8H0__INWGv5R-MJmZOa46AePoQQQMUrSPxxSdPlqPL0
 
 ###
 GET http://localhost:3000/users/1
