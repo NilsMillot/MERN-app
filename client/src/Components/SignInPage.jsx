@@ -3,8 +3,6 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
@@ -36,8 +34,15 @@ export default function SignInPage() {
   let auth = React.useContext(AuthContext);
   let navigate = useNavigate();
   let from = location.state?.from?.pathname || "/";
-  const [messageErrorAlert, setMessageErrorAlert] = React.useState("");
-  const [openErrorAlert, setOpenErrorAlert] = React.useState(false);
+
+  const [alert, setAlert] = React.useState({
+    opened: false,
+    severity: "error",
+    message: ""
+  });
+
+  const [emailInForm, setEmailInForm] = React.useState("");
+  const [isForgotPwdButtonDisabled, setIsForgotPwdButtonDisabled] = React.useState(false);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -61,14 +66,18 @@ export default function SignInPage() {
             localStorage.setItem("token", data.token);
           }
           if (data?.email || data?.password) {
-            setMessageErrorAlert("Email ou mot de passe incorrect");
-            setOpenErrorAlert(true);
-            // alert("Email ou mot de passe incorrect");
+            setAlert({
+              opened: true,
+              message: "Email ou mot de passe incorrect",
+              severity: "error"
+            });
           }
           if (data?.pendingAccount) {
-            setMessageErrorAlert("Votre compte n'est pas encore activé");
-            setOpenErrorAlert(true);
-            // alert("Votre compte n'est pas encore confirmé");
+            setAlert({
+              opened: true,
+              message: "Votre compte n'est pas encore activé",
+              severity: "error"
+            });
           }
         });
 
@@ -81,6 +90,34 @@ export default function SignInPage() {
       .catch((error) => {
         console.log("%cSignInPage.jsx line:81 error", "color: #007acc;", error);
       });
+  };
+
+  const handleClickForgotPwd = () => {
+    fetch("http://localhost:3000/password-reset", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: emailInForm
+      })
+    }).then((response) => {
+      if (response.status === 200) {
+        setAlert({
+          opened: true,
+          message: "Vérifie tes mails, un lien pour résilier ton mot de passe vient de partir ;)",
+          severity: "success"
+        });
+        setIsForgotPwdButtonDisabled(true);
+      }
+      if (response.status === 400) {
+        setAlert({
+          opened: true,
+          message: "Impossible de réinitialiser le mot de passe",
+          severity: "error"
+        });
+      }
+    });
   };
 
   return (
@@ -114,7 +151,7 @@ export default function SignInPage() {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Sign in
+              Se connecter
             </Typography>
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
@@ -122,46 +159,45 @@ export default function SignInPage() {
                 required
                 fullWidth
                 id="email"
-                label="Email Address"
+                label="Adresse mail"
                 name="email"
                 autoComplete="email"
                 autoFocus
+                onChange={(e) => {
+                  setEmailInForm(e.target.value);
+                }}
               />
               <TextField
                 margin="normal"
                 required
                 fullWidth
                 name="password"
-                label="Password"
+                label="Mot de passe"
                 type="password"
                 id="password"
                 autoComplete="current-password"
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
               <ClosableAlert
-                severity="error"
-                message={messageErrorAlert}
-                onOpenAlert={openErrorAlert}
-                setOnOpenAlert={setOpenErrorAlert}
+                severity={alert.severity}
+                message={alert.message}
+                onOpenAlert={alert.opened}
+                setOnOpenAlert={setAlert}
               />
               <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-                Sign In
+                Se connecter
               </Button>
-              <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="/signUp" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid>
+              <Box display="flex" justifyContent="space-between" alignItems="center">
+                <Button
+                  onClick={handleClickForgotPwd}
+                  disabled={isForgotPwdButtonDisabled}
+                  variant="body2">
+                  Mot de passe oublié ?
+                </Button>
+
+                <Link href="/signUp" variant="body2">
+                  {"Pas encore de compte? Inscris-toi!"}
+                </Link>
+              </Box>
               <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>

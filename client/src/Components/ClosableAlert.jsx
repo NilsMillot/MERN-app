@@ -18,7 +18,7 @@ export default function ClosableAlert({ severity, message, onOpenAlert, setOnOpe
               color="inherit"
               size="small"
               onClick={() => {
-                setOnOpenAlert(false);
+                setOnOpenAlert({ opened: false, message: "" });
               }}>
               <CloseIcon fontSize="inherit" />
             </IconButton>

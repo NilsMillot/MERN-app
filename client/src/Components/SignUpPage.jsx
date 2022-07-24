@@ -69,17 +69,15 @@ export default function SignUpPage() {
               firstName: data.get("firstName")
             })
           };
-          fetch("http://localhost:3000/sendMail/validationAccountLink", requestOpts).then(
-            (response) => {
-              if (response.status === 201) {
-                setOpenSnackBar(false);
-                setOpenValidationSentAlert(true);
-              } else {
-                setOpenSnackBar(false);
-                alert("The server can't send you email :(");
-              }
+          fetch("http://localhost:3000/validationAccountLink", requestOpts).then((response) => {
+            if (response.status === 201) {
+              setOpenSnackBar(false);
+              setOpenValidationSentAlert(true);
+            } else {
+              setOpenSnackBar(false);
+              alert("The server can't send you email :(");
             }
-          );
+          });
         });
       }
     });
@@ -100,7 +98,7 @@ export default function SignUpPage() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign up
+            Se créer un compte
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
@@ -111,7 +109,7 @@ export default function SignUpPage() {
                   required
                   fullWidth
                   id="firstName"
-                  label="First Name"
+                  label="Prénom"
                   autoFocus
                 />
               </Grid>
@@ -120,7 +118,7 @@ export default function SignUpPage() {
                   required
                   fullWidth
                   id="email"
-                  label="Email Address"
+                  label="Adresse mail"
                   name="email"
                   autoComplete="email"
                 />
@@ -130,17 +128,13 @@ export default function SignUpPage() {
                   required
                   fullWidth
                   name="password"
-                  label="Password"
+                  label="Mot de passe"
                   type="password"
                   id="password"
                   autoComplete="new-password"
                 />
               </Grid>
               <Grid item xs={12}>
-                {/* <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                /> */}
                 <ClosableAlert
                   severity="success"
                   message="Vérifie ta boîte mail pour confirmer ton compte :)"
@@ -149,7 +143,12 @@ export default function SignUpPage() {
                 />
               </Grid>
             </Grid>
-            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              disabled={openValidationSentAlert}
+              sx={{ mt: 3, mb: 2 }}>
               {"S'enregistrer"}
             </Button>
             <Grid container justifyContent="flex-end">

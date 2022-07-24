@@ -6,7 +6,9 @@ import SignUpPage from "./components/SignUpPage";
 import HomePage from "./components/HomePage";
 import { AuthProvider } from "./components/AuthProvider";
 import { RequireAuth } from "./components/RequireAuth";
-import Welcome from "./components/Welcome";
+import WelcomePage from "./components/WelcomePage";
+import ResetPasswordPage from "./components/ResetPasswordPage";
+import ProfilePage from "./components/ProfilePage";
 
 export let AuthContext = createContext(null);
 
@@ -32,9 +34,18 @@ const App = () => {
               </RequireAuth>
             }
           />
+          <Route
+            path="/profile"
+            element={
+              <RequireAuth>
+                <ProfilePage />
+              </RequireAuth>
+            }
+          />
           <Route path="/login" element={<SignInPage />} />
           <Route path="/signUp" element={<SignUpPage />} />
-          <Route path="/confirm/:confirmationCode" element={<Welcome />} />
+          <Route path="/confirm/:confirmationCode" element={<WelcomePage />} />
+          <Route path="/password-reset/:userId/:token" element={<ResetPasswordPage />} />
           <Route path="*" element={<h1>404</h1>} />
         </Routes>
       </AuthProvider>
