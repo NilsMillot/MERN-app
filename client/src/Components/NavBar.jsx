@@ -18,6 +18,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../App";
 import { AuthStatus } from "./AuthStatus";
 // import NotificationsIcon from "@mui/icons-material/Notifications";
+import GroupsIcon from '@mui/icons-material/Groups';
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -137,6 +138,12 @@ export default function NavBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}>
       <MenuItem>
+          <IconButton size="large" aria-label="Friends link button" color="inherit">
+            <GroupsIcon />
+          </IconButton>
+        <p>Amis</p>
+      </MenuItem>
+      <MenuItem>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="error">
             <MailIcon />
@@ -200,6 +207,11 @@ export default function NavBar() {
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}>
               <AuthStatus />
+              <Link to="/friends" style={{ color: "white" }}>
+                <IconButton size="large" aria-label="Friends link button" color="inherit">
+                    <GroupsIcon />
+                </IconButton>
+              </Link>
               <Link to="/messaging" style={{ color: "white" }}>
                 <IconButton size="large" aria-label="show 4 new mails" color="inherit">
                   <Badge badgeContent={4} color="error">

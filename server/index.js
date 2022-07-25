@@ -8,6 +8,8 @@ const UserRouter = require("./routes/User");
 const PostRouter = require("./routes/Post");
 const SendMailRouter = require("./routes/SendMail");
 const SecurityRouter = require("./routes/Security");
+const InvitationRouter = require("./routes/Invitation");
+const FriendRouter = require("./routes/Friend");
 const checkAuthentication = require("./middlewares/checkAuthentication");
 
 app.use(express.json(), cors());
@@ -22,5 +24,7 @@ app.use("/http-codes", HttpCodesRouter);
 app.use("/users", checkAuthentication, UserRouter);
 app.use("/posts", checkAuthentication, PostRouter);
 app.use(SendMailRouter);
+app.use("/invitations", InvitationRouter);
+app.use("/friends", FriendRouter);
 
 app.listen(port, () => console.log(`Server started ${port}`));

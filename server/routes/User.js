@@ -2,6 +2,7 @@ const { Router } = require("express");
 const { User, Post } = require("../models/postgres");
 const { ValidationError } = require("sequelize");
 const checkIsAdmin = require("../middlewares/checkIsAdmin");
+const checkAuthentication = require("../middlewares/checkAuthentication");
 
 const router = new Router();
 
@@ -12,7 +13,7 @@ const formatError = (validationError) => {
   }, {});
 };
 
-router.get("/", checkIsAdmin, async (req, res) => {
+router.get("/", checkAuthentication, async (req, res) => {
   try {
     const { page = 1, perPage = 10, ...criteria } = req.query;
     const result = await User.findAll({

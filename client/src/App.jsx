@@ -9,6 +9,7 @@ import { RequireAuth } from "./components/RequireAuth";
 import WelcomePage from "./components/WelcomePage";
 import ResetPasswordPage from "./components/ResetPasswordPage";
 import ProfilePage from "./components/ProfilePage";
+import FriendInvitation from "./Components/friend-invitation/FriendInvitation";
 
 export let AuthContext = createContext(null);
 
@@ -39,6 +40,14 @@ const App = () => {
             element={
               <RequireAuth>
                 <ProfilePage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/friends"
+            element={
+              <RequireAuth>
+                <FriendInvitation />
               </RequireAuth>
             }
           />
