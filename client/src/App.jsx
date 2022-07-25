@@ -1,14 +1,14 @@
 import { createContext, React } from "react";
 import { Route, Routes } from "react-router-dom";
-import NavBar from "./components/NavBar";
-import SignInPage from "./components/SignInPage";
-import SignUpPage from "./components/SignUpPage";
-import HomePage from "./components/HomePage";
-import { AuthProvider } from "./components/AuthProvider";
-import { RequireAuth } from "./components/RequireAuth";
-import WelcomePage from "./components/WelcomePage";
-import ResetPasswordPage from "./components/ResetPasswordPage";
-import ProfilePage from "./components/ProfilePage";
+import NavBar from "./Components/NavBar";
+import SignInPage from "./Components/SignInPage";
+import SignUpPage from "./Components/SignUpPage";
+import HomePage from "./Components/HomePage";
+import { AuthProvider } from "./Components/AuthProvider";
+import { RequireAuth } from "./Components/RequireAuth";
+import WelcomePage from "./Components/WelcomePage";
+import ResetPasswordPage from "./Components/ResetPasswordPage";
+import ProfilePage from "./Components/ProfilePage";
 import FriendInvitation from "./Components/friend-invitation/FriendInvitation";
 
 export let AuthContext = createContext(null);

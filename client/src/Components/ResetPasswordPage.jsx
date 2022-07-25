@@ -2,7 +2,7 @@
 import { Box, Button, Container, CssBaseline, Grid, TextField, Typography } from "@mui/material";
 import React from "react";
 import { Link, useParams } from "react-router-dom";
-import ClosableAlert from "./closableAlert";
+import ClosableAlert from "./ClosableAlert";
 
 const ResetPasswordPage = () => {
   const params = useParams();

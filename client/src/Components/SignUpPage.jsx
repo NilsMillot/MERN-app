@@ -12,7 +12,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { AuthContext } from "../App";
 import { v4 as uuidv4 } from "uuid";
-import ClosableAlert from "./closableAlert";
+import ClosableAlert from "./ClosableAlert";
 import CenteredSnackbar from "./CenteredSnackBar";
 
 function Copyright(props) {

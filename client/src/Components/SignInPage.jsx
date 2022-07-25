@@ -13,7 +13,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import loginPic from "../assets/login-pic.jpg";
 import { AuthContext } from "../App";
 import { useNavigate } from "react-router-dom";
-import ClosableAlert from "./closableAlert";
+import ClosableAlert from "./ClosableAlert";
 
 function Copyright(props) {
   return (

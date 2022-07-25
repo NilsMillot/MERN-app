@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 import { Container } from "@mui/system";
 import React from "react";
 import { useAuth } from "../utils/auth";
-import ClosableAlert from "./closableAlert";
+import ClosableAlert from "./ClosableAlert";
 
 export default function ProfilePage() {
   const auth = useAuth();
