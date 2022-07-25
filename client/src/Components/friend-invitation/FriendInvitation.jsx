@@ -94,6 +94,28 @@ export default function FriendInvitation() {
     console.log(friends);
   }
 
+  const deleteFriend = async (friend) => {
+    const id = friend.id;
+    const userId = friend.userId;
+    const friendId = friend.friendId;
+
+    const token = localStorage.getItem("token");
+    const requestOptions = {
+      method: "DELETE",
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        userId: userId,
+        friendId: friendId
+      })
+    };
+    await fetch(`http://localhost:3000/friends/${id}`, requestOptions);
+    getInvitations().catch(console.error);
+    getFriends().catch(console.error);
+  }
+
   useEffect(() => {
     getUsers().catch(console.error);
     getInvitations().catch(console.error);
@@ -104,7 +126,7 @@ export default function FriendInvitation() {
     <div style={{width: 800, margin: 'auto'}}>
       <UserList users={users} sendInvitation={sendInvitation} sendedInvitations={sendedInvitations} receivedInvitations={receivedInvitations} />
       <InvitationList updateInvitation={updateInvitation} pendingSendedInvitations={pendingSendedInvitations} pendingReceivedInvitations={pendingReceivedInvitations} />
-      <FriendList friends={friends} />
+      <FriendList friends={friends} deleteFriend={deleteFriend} />
     </div>
   );
 }

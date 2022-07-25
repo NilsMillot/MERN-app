@@ -1,3 +1,14 @@
+###
+DELETE http://localhost:3000/friends/7
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiZmlyc3RuYW1lIjoibWF4IiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTY1ODc1Nzk3MCwiZXhwIjoxNjkwMzE1NTcwfQ.pvjZmXFFpXFSFIRYzskXtqrz1yGcCFMWkOmji6Lt4Ak
+
+{
+  "userId": 2,
+  "friendId": 4
+}
+
+###
 GET http://localhost:3000/friends
 Accept: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3RuYW1lIjoiT0siLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2NTg2MTU4NzQsImV4cCI6MTY5MDE3MzQ3NH0.tI73TrSC7Wpdz2XOAtz5-RR30cFV44cFPih-WmoUIn4
@@ -96,8 +107,8 @@ POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-    "email": "ok@ok.com",
-    "password": "OKOKOK"
+    "email": "max@max.fr",
+    "password": "password"
 }
 
 ###
