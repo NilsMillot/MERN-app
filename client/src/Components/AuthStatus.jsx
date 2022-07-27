@@ -23,8 +23,7 @@ export function AuthStatus() {
         navigate("/login");
       }
       response.json().then((data) => {
-        data.preferedStack;
-        ici;
+        if (data.preferedStack === null) navigate("/setPreferences");
       });
     });
   }, [auth.token]);

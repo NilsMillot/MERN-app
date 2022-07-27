@@ -34,8 +34,36 @@ app.get("/me", async (req, res) => {
     req.user = await User.findByPk(user.id);
     const onlyFewFields = {
       preferedStack: req.user.preferedStack,
-    }
+    };
     res.json(onlyFewFields);
+  } else {
+    res.sendStatus(401);
+  }
+});
+
+app.post("/preferedStack", async (req, res) => {
+  const header = req.headers.authorization;
+  if (!header) {
+    return res.sendStatus(401);
+  }
+  const [type, token] = header.split(/\s+/);
+  if (type !== "Bearer") {
+    return res.sendStatus(401);
+  }
+  const user = await checkToken(token);
+  if (user) {
+    req.user = await User.findOne({
+      where: {
+        id: user.id,
+      },
+    });
+    user.preferedStack = req.body.preferedStack;
+    user.save((err) => {
+      if (err) {
+        res.status(502).send({ message: err });
+        return;
+      }
+    });
   } else {
     res.sendStatus(401);
   }

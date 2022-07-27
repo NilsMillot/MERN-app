@@ -75,6 +75,15 @@ GET http://localhost:3000/me
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZmlyc3RuYW1lIjoiT0siLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2NTgzMzgzNDMsImV4cCI6MTY4OTg5NTk0M30.jqZAYEZ8X8gYT_WVz6nnJKZD4COl745_a_qOp_ZzkTs
 
 ###
+POST http://localhost:3000/preferedStack
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZmlyc3RuYW1lIjoiT0siLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2NTgzMzgzNDMsImV4cCI6MTY4OTg5NTk0M30.jqZAYEZ8X8gYT_WVz6nnJKZD4COl745_a_qOp_ZzkTs
+
+{
+   "preferredStack": "NodeJS"
+}
+
+###
 POST http://localhost:3000/users
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZmlyc3RuYW1lIjoiT0siLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE2NTgzMzgzNDMsImV4cCI6MTY4OTg5NTk0M30.jqZAYEZ8X8gYT_WVz6nnJKZD4COl745_a_qOp_ZzkTs
