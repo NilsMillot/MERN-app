@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../utils/auth";
 
@@ -6,10 +6,28 @@ export function AuthStatus() {
   let auth = useAuth();
   let navigate = useNavigate();
 
-  console.log("%cAuthStatus.jsx line:9 auth", "color: #007acc;", auth);
   if (!auth.token) {
     return <p>You are not logged in.</p>;
   }
+
+  useEffect(() => {
+    console.log("%cAuthStatus.jsx line:26 auth.token", "color: #007acc;", auth.token);
+    fetch("http://localhost:3000/me", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${auth.token}`
+      }
+    }).then((response) => {
+      if (response.status === 401) {
+        auth.logout();
+        navigate("/login");
+      }
+      response.json().then((data) => {
+        data.preferedStack;
+        ici;
+      });
+    });
+  }, [auth.token]);
 
   return (
     <p>

@@ -11,11 +11,34 @@ const SecurityRouter = require("./routes/Security");
 const InvitationRouter = require("./routes/Invitation");
 const FriendRouter = require("./routes/Friend");
 const checkAuthentication = require("./middlewares/checkAuthentication");
+const { checkToken } = require("./lib/jwt");
+const { User } = require("./models/postgres");
 
 app.use(express.json(), cors());
 
 app.get("/", (req, res, next) => {
   res.send("Hello world!");
+});
+
+app.get("/me", async (req, res) => {
+  const header = req.headers.authorization;
+  if (!header) {
+    return res.sendStatus(401);
+  }
+  const [type, token] = header.split(/\s+/);
+  if (type !== "Bearer") {
+    return res.sendStatus(401);
+  }
+  const user = await checkToken(token);
+  if (user) {
+    req.user = await User.findByPk(user.id);
+    const onlyFewFields = {
+      preferedStack: req.user.preferedStack,
+    }
+    res.json(onlyFewFields);
+  } else {
+    res.sendStatus(401);
+  }
 });
 
 //app.use(HttpCodesRouter);

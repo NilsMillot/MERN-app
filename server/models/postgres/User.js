@@ -46,6 +46,10 @@ User.init(
       type: DataTypes.STRING,
       unique: true,
     },
+    preferedStack: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: true,
+    },
   },
   {
     sequelize,
