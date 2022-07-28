@@ -4,6 +4,7 @@ import NavBar from "./components/NavBar";
 import SignInPage from "./components/SignInPage";
 import SignUpPage from "./components/SignUpPage";
 import HomePage from "./components/HomePage";
+import Messaging from "./Components/chat/Messaging";
 import { AuthProvider } from "./components/AuthProvider";
 import { RequireAuth } from "./components/RequireAuth";
 
@@ -26,9 +27,7 @@ const App = () => {
           <Route
             path="/messaging"
             element={
-              <RequireAuth>
-                <h1>Votre messagerie</h1>
-              </RequireAuth>
+              <Messaging/>
             }
           />
           <Route path="/login" element={<SignInPage />} />
