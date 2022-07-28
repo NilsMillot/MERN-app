@@ -4,6 +4,7 @@ import NavBar from "./Components/NavBar";
 import SignInPage from "./Components/SignInPage";
 import SignUpPage from "./Components/SignUpPage";
 import HomePage from "./Components/HomePage";
+import Messaging from "./Components/chat/Messaging";
 import { AuthProvider } from "./Components/AuthProvider";
 import { RequireAuth } from "./Components/RequireAuth";
 import WelcomePage from "./Components/WelcomePage";

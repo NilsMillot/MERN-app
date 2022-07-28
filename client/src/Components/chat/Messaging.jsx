@@ -11,8 +11,8 @@ export default function HomePage() {
 
   return (
     <>
-      <ChatHeader />
-      {/*<div>Authenticated as {auth?.email}</div>*/}
+      {/*<ChatHeader />
+      <div>Authenticated as {auth?.email}</div>*/}
       <div className="messenger">
         <div className="chatMenu">
           <div className="chatMenuWrapper">
@@ -36,7 +36,8 @@ export default function HomePage() {
                 className="chatMessageInput"
                 placeholder="write something..."
                 //onChange={(e) => setNewMessage(e.target.value)}
-                /*value={newMessage}*/></textarea>
+                /*value={newMessage}*/
+              ></textarea>
               <button className="chatSubmitButton" onClick={console.log()}>
                 Send
               </button>
@@ -45,7 +46,7 @@ export default function HomePage() {
         </div>
         <div className="chatOnline">
           <div className="chatOnlineWrapper">
-            <ChatOnline/>
+            <ChatOnline />
           </div>
         </div>
       </div>
