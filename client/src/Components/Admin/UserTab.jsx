@@ -9,9 +9,11 @@ import Paper from "@mui/material/Paper";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useEffect, useState } from "react";
+import ModalEditUser from "../modalEditUser";
 
 export default function UserTab({ users, setUsers }) {
   const [user, setUser] = useState([]);
+  // const [isModalOpened, setIsModalOpened] = useState(false);
   function createData(id, firstname, email, createdAt, isAdmin, status) {
     return { id, firstname, email, createdAt, isAdmin, status };
   }
@@ -53,9 +55,35 @@ export default function UserTab({ users, setUsers }) {
     console.log("delete", event);
   };
 
-  const handleEdit = async (event) => {
-    console.log("edit", user);
+  const EditUser = async (event) => {
+    const id = event;
+    const token = localStorage.getItem("token");
+    const requestOptions = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        id: id,
+        lastaname: ""
+      })
+    };
+    await fetch(`http://localhost:3000/users/${id}`, requestOptions).then((response) => {
+      if (response.status === 200) {
+        setUsers(users.filter((user) => user.id !== id));
+      }
+    });
   };
+
+  const handleEdit = async (event) => {
+    console.log("edit", event);
+  };
+
+  function handleEdit1(userid) {
+    console.log("edit", user);
+    setUser;
+  }
 
   return (
     <div style={{ marginTop: "5%" }}>
@@ -88,7 +116,7 @@ export default function UserTab({ users, setUsers }) {
                 <TableCell align="right">{row.isAdmin}</TableCell>
                 <TableCell align="right">{row.status}</TableCell>
                 <TableCell align="right">
-                  <EditIcon onClick={() => handleEdit(row.id)} sx={{ color: "orange" }} />
+                  <EditIcon onClick={() => handleEdit1(row.id)} sx={{ color: "orange" }} />
                   <DeleteIcon onClick={() => handleDelete(row.id)} sx={{ color: "red" }} />
                 </TableCell>
               </TableRow>
@@ -96,6 +124,7 @@ export default function UserTab({ users, setUsers }) {
           </TableBody>
         </Table>
       </TableContainer>
+      <ModalEditUser user={editThisUser} />
     </div>
   );
 }
