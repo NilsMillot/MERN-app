@@ -10,6 +10,7 @@ import WelcomePage from "./Components/WelcomePage";
 import ResetPasswordPage from "./Components/ResetPasswordPage";
 import ProfilePage from "./Components/ProfilePage";
 import FriendInvitation from "./Components/friend-invitation/FriendInvitation";
+import LogList from "./Components/LogList";
 
 export let AuthContext = createContext(null);
 
@@ -48,6 +49,14 @@ const App = () => {
             element={
               <RequireAuth>
                 <FriendInvitation />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/logs"
+            element={
+              <RequireAuth>
+                <LogList />
               </RequireAuth>
             }
           />
