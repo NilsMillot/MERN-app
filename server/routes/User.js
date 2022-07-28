@@ -2,6 +2,8 @@ const { Router } = require("express");
 const { User, Post } = require("../models/postgres");
 const { ValidationError } = require("sequelize");
 const checkIsAdmin = require("../middlewares/checkIsAdmin");
+const checkAuthentication = require("../middlewares/checkAuthentication");
+const logger = require("../lib/logger");
 
 const router = new Router();
 
@@ -12,7 +14,7 @@ const formatError = (validationError) => {
   }, {});
 };
 
-router.get("/", checkIsAdmin, async (req, res) => {
+router.get("/", checkAuthentication, async (req, res) => {
   try {
     const { page = 1, perPage = 10, ...criteria } = req.query;
     const result = await User.findAll({
@@ -26,7 +28,7 @@ router.get("/", checkIsAdmin, async (req, res) => {
     res.json(result);
   } catch (error) {
     res.sendStatus(500);
-    console.error(error);
+    logger.error(error);
   }
 });
 
@@ -39,7 +41,7 @@ router.post("/", checkIsAdmin, async (req, res) => {
       res.status(422).json(formatError(error));
     } else {
       res.sendStatus(500);
-      console.error(error);
+      logger.error(error);
     }
   }
 });
@@ -53,7 +55,7 @@ router.get("/:id", async (req, res) => {
       res.json(result);
     }
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     res.sendStatus(500);
   }
 });
@@ -72,13 +74,13 @@ router.put("/:id", async (req, res) => {
       res.json(result);
     }
   } catch (error) {
-    console.log(error);
+    logger.info(error);
 
     if (error instanceof ValidationError) {
       res.status(422).json(formatError(error));
     } else {
       res.sendStatus(500);
-      console.error(error);
+      logger.error(error);
     }
   }
 });
@@ -97,7 +99,7 @@ router.delete("/:id", async (req, res) => {
     }
   } catch (error) {
     res.sendStatus(500);
-    console.error(error);
+    logger.error(error);
   }
 });
 

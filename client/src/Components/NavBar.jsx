@@ -18,6 +18,8 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../App";
 import { AuthStatus } from "./AuthStatus";
 // import NotificationsIcon from "@mui/icons-material/Notifications";
+import GroupsIcon from '@mui/icons-material/Groups';
+import DescriptionIcon from '@mui/icons-material/Description';
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -61,7 +63,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function NavBar() {
   let auth = React.useContext(AuthContext);
-  // console.log("%cNavBar.jsx line:63 auth", "color: #007acc;", auth);
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -105,7 +107,11 @@ export default function NavBar() {
       }}
       open={isMenuOpen}
       onClose={handleMenuClose}>
-      {auth?.email && <MenuItem onClick={handleMenuClose}>My account</MenuItem>}
+      {auth?.email && (
+        <Link to="/profile" style={{ color: "inherit", textDecoration: "none" }}>
+          <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+        </Link>
+      )}
       {auth?.email ? (
         <MenuItem onClick={handleMenuClose && handleSignout}>Sign out</MenuItem>
       ) : (
@@ -132,6 +138,12 @@ export default function NavBar() {
       }}
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}>
+      <MenuItem>
+          <IconButton size="large" aria-label="Friends link button" color="inherit">
+            <GroupsIcon />
+          </IconButton>
+        <p>Amis</p>
+      </MenuItem>
       <MenuItem>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="error">
@@ -196,11 +208,21 @@ export default function NavBar() {
             <Box sx={{ flexGrow: 1 }} />
             <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}>
               <AuthStatus />
+              <Link to="/friends" style={{ color: "white" }}>
+                <IconButton size="large" aria-label="Friends link button" color="inherit">
+                    <GroupsIcon />
+                </IconButton>
+              </Link>
               <Link to="/messaging" style={{ color: "white" }}>
                 <IconButton size="large" aria-label="show 4 new mails" color="inherit">
                   <Badge badgeContent={4} color="error">
                     <MailIcon />
                   </Badge>
+                </IconButton>
+              </Link>
+              <Link to="/logs" style={{ color: "white" }}>
+                <IconButton size="large" aria-label="Friends link button" color="inherit">
+                  <DescriptionIcon />
                 </IconButton>
               </Link>
               {/* <IconButton size="large" aria-label="show 17 new notifications" color="inherit">

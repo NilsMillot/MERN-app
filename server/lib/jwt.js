@@ -1,13 +1,13 @@
 const jwt = require("jsonwebtoken");
 
-exports.createToken = async (user) => {
+exports.createToken = async (user, expiresIn = "1y") => {
   const payload = {
     id: user.id,
     firstname: user.firstname,
     isAdmin: user.isAdmin,
   };
   return jwt.sign(payload, process.env.JWT_SECRET, {
-    expiresIn: "1y",
+    expiresIn: expiresIn,
   });
 };
 
@@ -23,3 +23,16 @@ exports.checkToken = async (token) => {
     return false;
   }
 };
+
+exports.extractUserFromToken = async (req) => {
+  const header = req.headers.authorization;
+  if (!header) {
+    return res.sendStatus(401);
+  }
+  const [type, token] = header.split(/\s+/);
+  if (type !== "Bearer") {
+    return res.sendStatus(401);
+  }
+  const user = await exports.checkToken(token);
+  return user;
+}

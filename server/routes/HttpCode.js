@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const { HttpCode } = require("../models/mongo");
 const mongoose = require("mongoose");
+const logger = require("../lib/logger");
 const router = new Router();
 
 const formatError = (validationError) => {
@@ -19,7 +20,7 @@ router.get("/", async (req, res) => {
     res.json(result);
   } catch (error) {
     res.sendStatus(500);
-    console.error(error);
+    logger.error(error);
   }
 });
 
@@ -32,7 +33,7 @@ router.post("/", async (req, res) => {
       res.status(422).json(formatError(error));
     } else {
       res.sendStatus(500);
-      console.error(error);
+      logger.error(error);
     }
   }
 });
@@ -48,7 +49,7 @@ router.get("/:id", async (req, res) => {
       res.json(result);
     }
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     res.sendStatus(500);
   }
 });
@@ -71,7 +72,7 @@ router.put("/:id", async (req, res) => {
       res.status(422).json(formatError(error));
     } else {
       res.sendStatus(500);
-      console.error(error);
+      logger.error(error);
     }
   }
 });
@@ -88,7 +89,7 @@ router.delete("/:id", async (req, res) => {
     }
   } catch (error) {
     res.sendStatus(500);
-    console.error(error);
+    logger.error(error);
   }
 });
 
