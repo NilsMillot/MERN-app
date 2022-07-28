@@ -14,6 +14,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import MoreIcon from "@mui/icons-material/MoreVert";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../App";
 import { AuthStatus } from "./AuthStatus";
@@ -66,12 +67,18 @@ export default function NavBar() {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [anchorAdminEl, setAnchorAdminEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const isAdminMenuOpen = Boolean(anchorAdminEl);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleAdminMenuOpen = (event) => {
+    setAnchorAdminEl(event.currentTarget);
   };
 
   const handleMobileMenuClose = () => {
@@ -87,9 +94,15 @@ export default function NavBar() {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const handleAdminMenuClose = () => {
+    setAnchorAdminEl(null);
+  };
+
   const handleSignout = () => {
     auth.signout(() => console.log("signed out"));
   };
+
+  const IsAdmin = auth?.isAdmin;
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -122,7 +135,7 @@ export default function NavBar() {
     </Menu>
   );
 
-  const mobileMenuId = "primary-search-account-menu-mobile";
+  const mobileMenuId = "primary-search-account-menu-admin-mobile";
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
@@ -139,9 +152,9 @@ export default function NavBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}>
       <MenuItem>
-          <IconButton size="large" aria-label="Friends link button" color="inherit">
-            <GroupsIcon />
-          </IconButton>
+        <IconButton size="large" aria-label="Friends link button" color="inherit">
+          <GroupsIcon />
+        </IconButton>
         <p>Amis</p>
       </MenuItem>
       <MenuItem>
@@ -161,6 +174,7 @@ export default function NavBar() {
         </IconButton>
         <p>Notifications</p>
       </MenuItem> */}
+
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           size="large"
@@ -172,6 +186,35 @@ export default function NavBar() {
         </IconButton>
         <p>Profile</p>
       </MenuItem>
+    </Menu>
+  );
+
+  const mobileMenuAdmin = "primary-search-account-menu-mobile";
+  const renderMobileMenuAdmin = (
+    <Menu
+      anchorEl={anchorAdminEl}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right"
+      }}
+      id={mobileMenuAdmin}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right"
+      }}
+      open={isAdminMenuOpen}
+      onClose={handleAdminMenuClose}>
+      {auth?.isAdmin && (
+        <Link to="/admin/user" style={{ color: "inherit", textDecoration: "none" }}>
+          <MenuItem onClick={handleAdminMenuClose}>Gestion User</MenuItem>
+        </Link>
+      )}
+      {auth?.isAdmin && (
+        <Link to="/admin/message" style={{ color: "inherit", textDecoration: "none" }}>
+          <MenuItem onClick={handleAdminMenuClose}>Gestion Message</MenuItem>
+        </Link>
+      )}
     </Menu>
   );
 
@@ -210,9 +253,26 @@ export default function NavBar() {
               <AuthStatus />
               <Link to="/friends" style={{ color: "white" }}>
                 <IconButton size="large" aria-label="Friends link button" color="inherit">
-                    <GroupsIcon />
+                  <GroupsIcon />
                 </IconButton>
               </Link>
+              {IsAdmin ? (
+                <MenuItem onClick={handleAdminMenuOpen}>
+                  <IconButton
+                    size="large"
+                    aria-controls="primary-search-account-menu-mobile"
+                    aria-label="show admin menu"
+                    aria-haspopup="true"
+                    color="inherit">
+                    <AdminPanelSettingsIcon />
+                  </IconButton>
+                </MenuItem>
+              ) : null}
+              {/* <Link to="/admin" style={{ color: "white" }}>
+                <IconButton size="large" aria-label="Admin link button" color="inherit">
+                  <AdminPanelSettingsIcon />
+                </IconButton>
+              </Link> */}
               <Link to="/messaging" style={{ color: "white" }}>
                 <IconButton size="large" aria-label="show 4 new mails" color="inherit">
                   <Badge badgeContent={4} color="error">
@@ -256,6 +316,7 @@ export default function NavBar() {
         </AppBar>
         {renderMobileMenu}
         {renderMenu}
+        {renderMobileMenuAdmin}
       </Box>
     );
 }
