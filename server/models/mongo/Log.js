@@ -1,11 +1,12 @@
 const mongoose = require("./db");
 
 const LogSchema = new mongoose.Schema({
-  level: string,
-  message: string,
-  meta: string
-}, {
-  timestamps: true
+  level: String,
+  message: String,
+  meta: {
+    service: String
+  },
+  timestamp: Date
 });
 
 const Log = new mongoose.model("Log", LogSchema);

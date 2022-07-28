@@ -3,6 +3,7 @@ const { Invitation, User, Friend } = require("../models/postgres");
 const { ValidationError } = require("sequelize");
 const checkAuthentication = require("../middlewares/checkAuthentication");
 const {extractUserFromToken} = require("../lib/jwt");
+const logger = require("../lib/logger");
 
 const router = new Router();
 
@@ -39,11 +40,11 @@ router.get("/", checkAuthentication, async (req, res) => {
       sendedInvitations,
       receivedInvitations
     }
-    console.log(allInvitations);
+    logger.info(allInvitations);
     res.json(allInvitations);
   } catch (error) {
     res.sendStatus(500);
-    console.error(error);
+    logger.error(error);
   }
 });
 
@@ -62,7 +63,7 @@ router.post("/", checkAuthentication, async (req, res) => {
       res.status(422).json(formatError(error));
     } else {
       res.sendStatus(500);
-      console.error(error);
+      logger.error(error);
     }
   }
 });
@@ -77,8 +78,8 @@ router.put("/:id", checkAuthentication, async (req, res) => {
     const invitation = result[0].get();
 
     if (req.body.status === "accepté") {
-      console.log("triggered");
-      console.log(invitation);
+      logger.info("triggered");
+      logger.info(invitation);
       await Friend.create({
         userId: invitation.senderId,
         friendId: invitation.receiverId
@@ -87,13 +88,13 @@ router.put("/:id", checkAuthentication, async (req, res) => {
 
     res.sendStatus(200);
   } catch (error) {
-    console.log(error);
+    logger.info(error);
 
     if (error instanceof ValidationError) {
       res.status(422).json(formatError(error));
     } else {
       res.sendStatus(500);
-      console.error(error);
+      logger.error(error);
     }
   }
 });
