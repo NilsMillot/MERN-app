@@ -8,17 +8,17 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useEffect, useState } from "react";
-import ModalEditUser from "../modalEditUser";
+import { useState } from "react";
+import { Box, Button, Modal, TextField } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
+// import ModalEditUser from "../modalEditUser";
 
+// eslint-disable-next-line react/prop-types
 export default function UserTab({ users, setUsers }) {
-  const [user, setUser] = useState([]);
-  // const [isModalOpened, setIsModalOpened] = useState(false);
   function createData(id, firstname, email, createdAt, isAdmin, status) {
     return { id, firstname, email, createdAt, isAdmin, status };
   }
-
-  //   const rows = [createData(users.map((user) => (user.id, user.firstname, user.email)))];
   const rows = [];
   let admin = "";
   users.map((user) => {
@@ -32,31 +32,8 @@ export default function UserTab({ users, setUsers }) {
 
   const DeleteUser = async (event) => {
     const id = event;
-    const token = localStorage.getItem("token");
-    const requestOptions = {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        id: id
-      })
-    };
-    await fetch(`http://localhost:3000/users/${id}`, requestOptions).then((response) => {
-      if (response.status === 204) {
-        setUsers(users.filter((user) => user.id !== id));
-      }
-    });
-  };
-
-  const handleDelete = async (event) => {
-    await DeleteUser(event);
-    console.log("delete", event);
-  };
-
-  const EditUser = async (event) => {
-    const id = event;
+    const newFirstname = "JohnDoe";
+    const newEmail = uuidv4() + "@gmail.com";
     const token = localStorage.getItem("token");
     const requestOptions = {
       method: "PUT",
@@ -66,24 +43,62 @@ export default function UserTab({ users, setUsers }) {
       },
       body: JSON.stringify({
         id: id,
-        lastaname: ""
+        firstname: newFirstname,
+        email: newEmail
       })
     };
     await fetch(`http://localhost:3000/users/${id}`, requestOptions).then((response) => {
       if (response.status === 200) {
-        setUsers(users.filter((user) => user.id !== id));
+        console.log("Ola");
+        setUsers(
+          users.map((user) =>
+            user.id === currentIdUser ? { ...user, firstname: newFirstname, email: newEmail } : user
+          )
+        );
+        // setUsers(users.filter((user) => user.id !== id));
       }
     });
   };
 
-  const handleEdit = async (event) => {
-    console.log("edit", event);
+  const handleDelete = async (event) => {
+    await DeleteUser(event);
+    console.log("delete", event);
   };
 
-  function handleEdit1(userid) {
-    console.log("edit", user);
-    setUser;
-  }
+  const handleSubmitNewUser = async () => {
+    console.log("%cUserTab.jsx line:57 newFirstname", "color: #007acc;", newFirstname);
+    console.log("%cUserTab.jsx line:57 newEmail", "color: #007acc;", newEmail);
+    console.log("%cUserTab.jsx line:57 currentIdUser", "color: #007acc;", currentIdUser);
+    // const id = event;
+    const token = localStorage.getItem("token");
+    const requestOptions = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({
+        id: currentIdUser,
+        firstname: newFirstname,
+        email: newEmail
+      })
+    };
+    await fetch(`http://localhost:3000/users/${currentIdUser}`, requestOptions).then((response) => {
+      if (response.status === 200) {
+        setUsers(
+          users.map((user) =>
+            user.id === currentIdUser ? { ...user, firstname: newFirstname, email: newEmail } : user
+          )
+        );
+      }
+    });
+  };
+
+  const [isOpenModal, setIsOpenModal] = useState(false);
+
+  const [currentIdUser, setCurrentIdUser] = useState("");
+  const [newEmail, setNewEmail] = useState("");
+  const [newFirstname, setNewFirstname] = useState("");
 
   return (
     <div style={{ marginTop: "5%" }}>
@@ -101,30 +116,81 @@ export default function UserTab({ users, setUsers }) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
+            {users.map((user) => (
               <TableRow
                 hover
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 tabIndex={-1}
-                key={row.id}>
+                key={user.id}>
                 <TableCell component="th" scope="row">
-                  {row.id}
+                  {user.id}
                 </TableCell>
-                <TableCell align="right">{row.firstname}</TableCell>
-                <TableCell align="right">{row.email}</TableCell>
-                <TableCell align="right">{row.createdAt}</TableCell>
-                <TableCell align="right">{row.isAdmin}</TableCell>
-                <TableCell align="right">{row.status}</TableCell>
+                <TableCell align="right">{user.firstname}</TableCell>
+                <TableCell align="right">{user.email}</TableCell>
+                <TableCell align="right">{user.createdAt}</TableCell>
+                <TableCell align="right">{user.isAdmin}</TableCell>
+                <TableCell align="right">{user.status}</TableCell>
                 <TableCell align="right">
-                  <EditIcon onClick={() => handleEdit1(row.id)} sx={{ color: "orange" }} />
-                  <DeleteIcon onClick={() => handleDelete(row.id)} sx={{ color: "red" }} />
+                  <EditIcon
+                    onClick={() => {
+                      setCurrentIdUser(user.id);
+                      setNewEmail(user.email);
+                      setNewFirstname(user.firstname);
+                      setIsOpenModal(true);
+                    }}
+                    sx={{ color: "orange" }}
+                  />
+                  <DeleteIcon onClick={() => handleDelete(user.id)} sx={{ color: "red" }} />
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <ModalEditUser user={editThisUser} />
+      <Modal open={isOpenModal} onClose={() => setIsOpenModal(false)}>
+        <Box
+          sx={{
+            position: "absolute",
+            textAlign: "center",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            border: "2px solid #000",
+            boxShadow: 24,
+            p: 4
+          }}>
+          <TextField
+            id="outlined-basic"
+            label="email"
+            variant="outlined"
+            value={currentIdUser}
+            disabled={true}
+            sx={{ width: "100%", marginBottom: "1rem" }}
+          />
+          <br />
+          <TextField
+            id="outlined-basic"
+            label="email"
+            variant="outlined"
+            value={newEmail}
+            onChange={(e) => setNewEmail(e.target.value)}
+            sx={{ width: "100%", marginBottom: "1rem" }}
+          />
+          <br />
+          <TextField
+            id="outlined-basic"
+            label="firstname"
+            variant="outlined"
+            value={newFirstname}
+            onChange={(e) => setNewFirstname(e.target.value)}
+            sx={{ width: "100%", marginBottom: "1rem" }}
+          />
+          <br />
+          <Button onClick={handleSubmitNewUser}>Modifier</Button>
+        </Box>
+      </Modal>
     </div>
   );
 }

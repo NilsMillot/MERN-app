@@ -3,9 +3,9 @@ POST http://localhost:3000/validationAccountLink
 Content-Type: application/json
 
 {
-    "mailTo": "vibirig789@agrolivana.com",
-    "confirmationCode": "26731c3a-baaf-4ed2-bfc6-82d903b6e048",
-    "firstName": "Oceane"
+    "mailTo": "jedojes450@anlubi.com",
+    "confirmationCode": "b5ae3000-08ba-4919-8023-4d78ccba39e3",
+    "firstName": "Océ"
 }
 
 ###
@@ -30,5 +30,5 @@ Content-Type: application/json
 
 
 ###
-GET http://localhost:3000/confirm/1234
+GET http://localhost:3000/confirm/b5ae3000-08ba-4919-8023-4d78ccba39e3
 Content-Type: application/json
