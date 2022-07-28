@@ -5,6 +5,7 @@ const bcryptjs = require("bcryptjs");
 const { createToken, checkToken } = require("../lib/jwt");
 const router = new Router();
 const sendMailBasic = require("../lib/sendMailBasic");
+const logger = require("../lib/logger");
 
 const formatError = (validationError) => {
   return validationError.errors.reduce((acc, error) => {
@@ -16,13 +17,15 @@ const formatError = (validationError) => {
 router.post("/register", async (req, res) => {
   try {
     const result = await User.create(req.body);
+    logger.info("user created !");
     res.status(201).json(result);
   } catch (error) {
     if (error instanceof ValidationError) {
+      logger.error(error.message);
       res.status(422).json(formatError(error));
     } else {
       res.sendStatus(500);
-      console.error(error);
+      logger.error(error.message);
     }
   }
 });
@@ -44,7 +47,7 @@ router.post("/checkToken", async (req, res) => {
     }
   } catch (error) {
     res.sendStatus(500);
-    console.error(error);
+    logger.error(error);
   }
 });
 
@@ -88,7 +91,7 @@ router.post("/login", async (req, res) => {
     res.json({ token: await createToken(result) });
   } catch (error) {
     res.sendStatus(500);
-    console.error(error);
+    logger.error(error);
   }
 });
 
@@ -118,7 +121,7 @@ router.post("/password-reset", async (req, res) => {
     res.send("password reset link sent to your email account");
   } catch (error) {
     res.sendStatus(500);
-    console.log(error);
+    logger.info(error);
   }
 });
 
@@ -147,7 +150,7 @@ router.post("/password-reset/:userId/:token", async (req, res) => {
     res.send("password reset sucessfully.");
   } catch (error) {
     res.send("An error occured while trying to reset password");
-    console.log(error);
+    logger.info(error);
   }
 });
 

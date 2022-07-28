@@ -1,11 +1,11 @@
 ###
-POST http://localhost:3000/sendMail/validationAccountLink
+POST http://localhost:3000/validationAccountLink
 Content-Type: application/json
 
 {
-    "mailTo": "meyox97193@altpano.com",
-    "confirmationCode": "token1234",
-    "firstName": "Nils"
+    "mailTo": "jedojes450@anlubi.com",
+    "confirmationCode": "b5ae3000-08ba-4919-8023-4d78ccba39e3",
+    "firstName": "Océ"
 }
 
 ###
@@ -27,3 +27,8 @@ Content-Type: application/json
 {
     "password": "nouveau mdp zeffezezfefzfezezzf"
 }
+
+
+###
+GET http://localhost:3000/confirm/b5ae3000-08ba-4919-8023-4d78ccba39e3
+Content-Type: application/json

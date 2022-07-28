@@ -1,6 +1,7 @@
 const nodemailer = require("nodemailer");
 const { Router } = require("express");
 const { User } = require("../models/postgres");
+const logger = require("../lib/logger");
 
 const router = new Router();
 const transporter = nodemailer.createTransport({
@@ -21,7 +22,7 @@ async function sendValidationAccountMail(mailTo, confirmationCode, firstName) {
     html: `<h3 style="font-weight: 400"> Merci ${firstName} pour la confiance que tu nous accordes ! <a target="_blank" href="http://localhost:3001/confirm/${confirmationCode}">Confirmer mon mail</a></h3>`, // html body
   });
 
-  console.log("Message sent: %s", info.messageId);
+  logger.info("Message sent: %s", info.messageId);
   // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
 }
 
@@ -35,7 +36,7 @@ router.post("/validationAccountLink", async (req, res) => {
     res.status(201).json({ message: "Verification mail sent" });
   } catch (error) {
     res.sendStatus(500);
-    console.error(error);
+    logger.error(error);
   }
 });
 
@@ -57,7 +58,7 @@ router.get("/confirm/:confirmationCode", async (req, res) => {
     res.status(200).json(user);
   } catch (error) {
     res.sendStatus(500);
-    console.error(error);
+    logger.error(error);
   }
 });
 

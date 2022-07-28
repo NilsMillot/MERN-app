@@ -11,6 +11,9 @@ import ResetPasswordPage from "./Components/ResetPasswordPage";
 import ProfilePage from "./Components/ProfilePage";
 import FriendInvitation from "./Components/friend-invitation/FriendInvitation";
 import PreferencesPage from "./components/PreferencesPage";
+import AdminHome from "./Components/Admin/AdminHome";
+import AdminUser from "./Components/Admin/AdminUser";
+import LogList from "./Components/LogList";
 
 export let AuthContext = createContext(null);
 
@@ -53,6 +56,14 @@ const App = () => {
             }
           />
           <Route
+            path="/logs"
+            element={
+              <RequireAuth>
+                <LogList />
+              </RequireAuth>
+            }
+          />
+          <Route
             path="/setPreferences"
             element={
               <RequireAuth>
@@ -64,6 +75,22 @@ const App = () => {
           <Route path="/signUp" element={<SignUpPage />} />
           <Route path="/confirm/:confirmationCode" element={<WelcomePage />} />
           <Route path="/password-reset/:userId/:token" element={<ResetPasswordPage />} />
+          <Route
+            path="/admin"
+            element={
+              <RequireAuth>
+                <AdminHome />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/admin/user"
+            element={
+              <RequireAuth>
+                <AdminUser />
+              </RequireAuth>
+            }
+          />
           <Route path="*" element={<h1>404</h1>} />
         </Routes>
       </AuthProvider>

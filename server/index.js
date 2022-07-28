@@ -13,6 +13,7 @@ const FriendRouter = require("./routes/Friend");
 const checkAuthentication = require("./middlewares/checkAuthentication");
 const { checkToken } = require("./lib/jwt");
 const { User } = require("./models/postgres");
+const LogRouter = require("./routes/Log");
 
 app.use(express.json(), cors());
 
@@ -77,5 +78,6 @@ app.use("/posts", checkAuthentication, PostRouter);
 app.use(SendMailRouter);
 app.use("/invitations", InvitationRouter);
 app.use("/friends", FriendRouter);
+app.use("/logs", LogRouter);
 
 app.listen(port, () => console.log(`Server started ${port}`));
