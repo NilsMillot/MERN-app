@@ -12,6 +12,8 @@ import ProfilePage from "./Components/ProfilePage";
 import FriendInvitation from "./Components/friend-invitation/FriendInvitation";
 import AdminHome from "./Components/Admin/AdminHome";
 import AdminUser from "./Components/Admin/AdminUser";
+import LogList from "./Components/LogList";
+
 export let AuthContext = createContext(null);
 
 const App = () => {
@@ -49,6 +51,14 @@ const App = () => {
             element={
               <RequireAuth>
                 <FriendInvitation />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/logs"
+            element={
+              <RequireAuth>
+                <LogList />
               </RequireAuth>
             }
           />

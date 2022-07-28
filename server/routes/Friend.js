@@ -3,6 +3,7 @@ const { Friend, Invitation} = require("../models/postgres");
 const { Op } = require("sequelize");
 const checkAuthentication = require("../middlewares/checkAuthentication");
 const {extractUserFromToken} = require("../lib/jwt");
+const logger = require("../lib/logger");
 
 const router = new Router();
 
@@ -38,13 +39,13 @@ router.get("/", checkAuthentication, async (req, res) => {
       });
     }
 
-    console.log("after");
-    console.log(friends);
+    logger.info("after");
+    logger.info(friends);
 
     res.json(friends);
   } catch (error) {
     res.sendStatus(500);
-    console.error(error);
+    logger.error(error);
   }
 });
 
@@ -76,7 +77,7 @@ router.delete("/:id", checkAuthentication, async (req, res) => {
     }
   } catch (error) {
     res.sendStatus(500);
-    console.error(error);
+    logger.error(error);
   }
 });
 

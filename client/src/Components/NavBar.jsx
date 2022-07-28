@@ -19,7 +19,8 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../App";
 import { AuthStatus } from "./AuthStatus";
 // import NotificationsIcon from "@mui/icons-material/Notifications";
-import GroupsIcon from "@mui/icons-material/Groups";
+import GroupsIcon from '@mui/icons-material/Groups';
+import DescriptionIcon from '@mui/icons-material/Description';
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -277,6 +278,11 @@ export default function NavBar() {
                   <Badge badgeContent={4} color="error">
                     <MailIcon />
                   </Badge>
+                </IconButton>
+              </Link>
+              <Link to="/logs" style={{ color: "white" }}>
+                <IconButton size="large" aria-label="Friends link button" color="inherit">
+                  <DescriptionIcon />
                 </IconButton>
               </Link>
               {/* <IconButton size="large" aria-label="show 17 new notifications" color="inherit">
